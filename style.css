@@ -3,24 +3,23 @@ nav {
     display: flex;
     justify-content: center;
     background-color: lightcyan;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 3px;
+    font-size: 1.5rem;
+    color: blueviolet;
 }
 
-.cntbuttons {
-    display: flex;
-    margin-bottom: 30px;
-    width: 200px;
-    justify-content: space-between;
-}
 
-.cntresult {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    padding: 50px 0 20px;
-}
+/* .cntresult { */
+/*     position: relative; */
+/* } */
 
-.output {
-    font-size: 2rem;
-    color: green;
+#draggable {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-color: green;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    color: white;
 }

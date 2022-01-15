@@ -1,19 +1,29 @@
-import { interval, fromEvent } from 'rxjs';
+import { fromEvent } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
-// dom elements
-let startButton = document.querySelector('#start-button');
-let stopButton = document.querySelector('#stop-button');
-let resultArea = document.querySelector<HTMLElement>('.output');
+let draggable: HTMLElement = document.querySelector('#draggable');
 
-// Observables
-let tenthSeconds$ = interval(100);
-let startClick$ = fromEvent(startButton,'click');
-let stopClick$ = fromEvent(stopButton, 'click');
+let mouseDown$ = fromEvent<MouseEvent>(draggable, 'mousedown') ;
+let mouseMove$ = fromEvent<MouseEvent>(document, 'mousemove');
+let mouseUp$ = fromEvent<MouseEvent>(document, 'mouseup');
 
-startClick$.subscribe( () => {
-    tenthSeconds$.pipe(
-        map( item => (item/10)),
-        takeUntil(stopClick$)
-    ).subscribe(num => resultArea.innerHTML = num + 's');
+
+mouseDown$.subscribe( () => {
+    mouseMove$.pipe(
+        map( event => {
+            event.preventDefault();
+            return {
+                x: event.clientX,
+                y: event.clientY
+            };
+        }),
+        takeUntil(mouseUp$)
+    ).subscribe(
+        pos => {
+            draggable.style.cursor = 'none';
+            draggable.style.left = (pos.x - 50) + 'px';
+            draggable.style.top = (pos.y - 50) + 'px';
+        });
 });
+
+mouseUp$.subscribe( () => draggable.style.cursor = '' );
